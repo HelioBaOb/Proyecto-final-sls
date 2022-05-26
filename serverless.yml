@@ -1,0 +1,29 @@
+service: cpostales
+
+frameworkVersion: '3'
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  ecr:
+    # In this section you can define images that will be built locally and uploaded to ECR
+    images:
+      appimage:
+        path: ./
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  stage: dev
+  region: us-west-2
+
+functions:
+  postales:
+    handler: app.generic
+    events:
+      - httpApi:
+          path: /postales/{postalcode} 
+          method: get
+      - httpApi:
+          path: /{proxy+}
+          method: ANY
