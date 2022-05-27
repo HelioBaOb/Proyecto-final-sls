@@ -29,7 +29,7 @@ app.get('/postales/:postalcode', (req, res) => {
   if(!postalCode) {
     return res.send({
       data,
-      err: `missing postal code ${postalCode}`
+      err: `missing postal codes`
     });
   }
 
@@ -47,14 +47,19 @@ app.get('/postales/:postalcode', (req, res) => {
   data.Municipio = resultPostal[0].asentamiento;
 
   data.Colonias = resultPostal.map(results => ({
-    name: results.asentamiento,
-    type: results.type,
+    Nombre: results.asentamiento,
+    Tipo: results.type,
   }))
 
   res.send({
-    data,
+    Estado: `${data.Estado}`,
+    Municipio: `${data.Municipio}`,
+    Colonias:  data.Colonias.map(results => ({
+      Nombre: `${results.Nombre}`,
+      Tipo: `${results.Tipo}`,
+    })),
     err: `no error detected`
   });
 });
 
-module.exports.generic = serverless(app);
+module.exports.handler = serverless(app);
