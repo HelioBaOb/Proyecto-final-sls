@@ -5,7 +5,7 @@ service: proyecto-final
 plugins:
   - serverless-offline
 
-frameworkVersion: '3'
+frameworkVersion: '2'
 
 provider:
   name: aws
