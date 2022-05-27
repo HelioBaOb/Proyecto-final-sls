@@ -1,9 +1,11 @@
-service: cpostales
+service: proyecto-final
 
-frameworkVersion: '2'
+#frameworkVersion: '3'
 
 plugins:
   - serverless-offline
+
+frameworkVersion: '3'
 
 provider:
   name: aws
@@ -19,7 +21,7 @@ provider:
 
 functions:
   postales:
-    handler: app.generic
+    handler: app.handler
     events:
       - httpApi:
           path: /postales/{postalcode} 
