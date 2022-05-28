@@ -8,7 +8,7 @@ COPY package.json .
 # Install NPM dependencies for function
 RUN npm install
 
-RUN npm i serverless -g
+RUN npm install serverless@2.72.3 -g
 
 COPY . .
 
