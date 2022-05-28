@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.get('/postales/:postalcode', (req, res) => {
+app.get('/postales/:postalcode', async (req, res) => {
   const postalCode = req.params.postalcode;
   const data = {
     Estado: '',
@@ -20,14 +20,14 @@ app.get('/postales/:postalcode', (req, res) => {
   
 
   if(!cp) {
-    return res.send({
+    return await res.send({
       data,
       err: `missing database`
     });
   }
 
   if(!postalCode) {
-    return res.send({
+    return await res.send({
       data,
       err: `missing postal codes`
     });
@@ -36,7 +36,7 @@ app.get('/postales/:postalcode', (req, res) => {
   const resultPostal = cp.filter( postal => postal.cp === postalCode);
 
   if(!resultPostal[0]) {
-    return res.send({
+    return await res.send({
       data,
       err: `not result for ${postalCode}`
     });
@@ -51,7 +51,7 @@ app.get('/postales/:postalcode', (req, res) => {
     Tipo: results.type,
   }))
 
-  res.send({
+  await res.send({
     Estado: `${data.Estado}`,
     Municipio: `${data.Municipio}`,
     Colonias:  data.Colonias.map(results => ({
@@ -62,4 +62,9 @@ app.get('/postales/:postalcode', (req, res) => {
   });
 });
 
-module.exports.handler = serverless(app);
+module.exports = {
+  handler : serverless(app),
+  app: app
+}
+// module.exports.handler = serverless(app);
+// console.log(module);
